@@ -2,14 +2,17 @@
   "name": "wix-cms-sdk",
   "version": "1.0.0",
   "description": "A lightweight and modular SDK for interacting with the Wix Headless CMS API. This library simplifies content management operations such as retrieving, creating, updating, and deleting CMS items, making it easier to integrate Wix CMS into your projects.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">= 20.11.0"
+  },
+  "type": "module",
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "build": "tsc",
     "start": "node dist/index.js",
-    "test": "node index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "node --no-warnings --loader ts-node/esm src/index.ts"
   },
   "repository": {
     "type": "git",

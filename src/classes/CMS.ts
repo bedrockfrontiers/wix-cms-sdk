@@ -1,6 +1,6 @@
-import { QueryBuilder } from "./QueryBuilder";
+import { QueryBuilder } from "./QueryBuilder.ts";
 
-export class CMS {
+export default class WixCMS {
     private username: string;
     private site: string;
     private token: string;
