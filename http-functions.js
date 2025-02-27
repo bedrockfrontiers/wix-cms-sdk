@@ -50,6 +50,19 @@ export async function post_saveQuery(request) {
     return handleOperation(operation, response);
 }
 
+export async function post_updateQuery(request) {
+    const response = getResponse();
+    const body = JSON.parse(await request.body.text());
+    const error = validateRequest(body);
+    if (error) return badRequest({ ...response, body: error });
+
+    const { collection, item, options } = body;
+    const operation = Array.isArray(item) 
+        ? wixData.bulkUpdate(collection, item, options) 
+        : wixData.update(collection, item, options);
+    return handleOperation(operation, response);
+}
+
 export async function post_removeQuery(request) {
     const response = getResponse();
     const body = JSON.parse(await request.body.text());
@@ -110,6 +123,7 @@ export async function post_query(request) {
                 gt: () => query.gt(cond.field, cond.value),
                 gte: () => query.ge(cond.field, cond.value),
                 lt: () => query.lt(cond.field, cond.value),
+                le: () => query.le(cond.field, cond.value),
                 lte: () => query.le(cond.field, cond.value),
                 include: () => query.include(...cond.field),
                 contains: () => query.contains(cond.field, cond.value),
@@ -120,6 +134,9 @@ export async function post_query(request) {
                 limit: () => query.limit(cond.value),
                 skip: () => query.skip(cond.value),
                 hasSome: () => query.hasSome(cond.field, cond.value),
+                hasAll: () => query.hasAll(cond.field, cond.value),
+                isEmpty: () => query.isEmpty(cond.field),
+                isNotEmpty: () => query.isNotEmpty(cond.field),
                 ascending: () => query.ascending(...cond.field),
                 descending: () => query.descending(...cond.field)
             };
