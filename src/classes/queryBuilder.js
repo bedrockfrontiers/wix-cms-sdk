@@ -16,6 +16,7 @@ export class QueryBuilder {
     #username;
     #site;
     #token;
+    #wixRequest;
     
     /**
      * Creates a new QueryBuilder instance.
