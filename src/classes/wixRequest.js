@@ -41,7 +41,7 @@ export class WixRequest {
      * @throws {Error} If the request fails or the response is not OK.
      * @private
      */
-    async tplRequest(route, options = { method: "GET" }) {
+    async #tplRequest(route, options = { method: "GET" }) {
         const defaultHeaders = { "content-type": "application/json" };
         const mergedOptions = {
             method: options.method,
@@ -77,7 +77,7 @@ export class WixRequest {
      * @returns {Promise<object>} A promise resolving to the result of the insert operation.
      */
     async insertQuery(route, item, options) {
-        return this.handleResponse(await this.tplRequest(route, { method: "POST", body: { item, options } }));
+        return this.handleResponse(await this.#tplRequest(route, { method: "POST", body: { item, options } }));
     }
 
     /**
@@ -89,7 +89,7 @@ export class WixRequest {
      * @returns {Promise<object>} A promise resolving to the result of the save operation.
      */
     async saveQuery(route, item, options) {
-        return this.handleResponse(await this.tplRequest(route, { method: "POST", body: { item, options } }));
+        return this.handleResponse(await this.#tplRequest(route, { method: "POST", body: { item, options } }));
     }
 
     /**
@@ -101,7 +101,7 @@ export class WixRequest {
      * @returns {Promise<object>} A promise resolving to the result of the update operation.
      */
     async updateQuery(route, item, options) {
-        return this.handleResponse(await this.tplRequest(route, { method: "POST", body: { item, options } }));
+        return this.handleResponse(await this.#tplRequest(route, { method: "POST", body: { item, options } }));
     }
 
     /**
@@ -113,7 +113,7 @@ export class WixRequest {
      * @returns {Promise<object>} A promise resolving to the result of the remove operation.
      */
     async removeQuery(route, itemId, options) {
-        return this.handleResponse(await this.tplRequest(route, { method: "POST", body: { itemId, options } }));
+        return this.handleResponse(await this.#tplRequest(route, { method: "POST", body: { itemId, options } }));
     }
 
     /**
@@ -124,7 +124,7 @@ export class WixRequest {
      * @returns {Promise<object>} A promise resolving to the result of the truncate operation.
      */
     async truncateQuery(route, options) {
-        return this.handleResponse(await this.tplRequest(route, { method: "POST", body: { options } }));
+        return this.handleResponse(await this.#tplRequest(route, { method: "POST", body: { options } }));
     }
 
     /**
@@ -136,7 +136,7 @@ export class WixRequest {
      * @returns {Promise<object>} A promise resolving to the query results.
      */
     async findQuery(route, conditions, options) {
-        return this.handleResponse(await this.tplRequest(route, { method: "POST", body: { conditions, options } }));
+        return this.handleResponse(await this.#tplRequest(route, { method: "POST", body: { conditions, options } }));
     }
 
     /**

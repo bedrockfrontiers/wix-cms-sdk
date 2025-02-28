@@ -21,11 +21,11 @@ export class QueryBuilder {
      * @param {string} token - Authentication token for API access.
      */
     constructor(collectionName, username, site, token) {
-        this.collectionName = collectionName;
-        this.username = username;
-        this.site = site;
-        this.token = token;
-        this.wixRequest = new WixRequest(collectionName, username, site, token);
+        this.#collectionName = collectionName;
+        this.#username = username;
+        this.#site = site;
+        this.#token = token;
+        this.#wixRequest = new WixRequest(collectionName, username, site, token);
     }
 
     /**
@@ -224,7 +224,7 @@ export class QueryBuilder {
      * @returns {Promise<object>} A promise resolving to the result of the insert operation.
      */
     async insert(item, options = { suppressAuth: true }) {
-        return await this.wixRequest.insertQuery("insertQuery", item, options);
+        return await this.#wixRequest.insertQuery("insertQuery", item, options);
     }
 
     /**
@@ -236,7 +236,7 @@ export class QueryBuilder {
      * @returns {Promise<object>} A promise resolving to the result of the save operation.
      */
     async save(item, options = { suppressAuth: true }) {
-        return await this.wixRequest.saveQuery("saveQuery", item, options);
+        return await this.#wixRequest.saveQuery("saveQuery", item, options);
     }
 
     /**
@@ -248,7 +248,7 @@ export class QueryBuilder {
      * @returns {Promise<object>} A promise resolving to the result of the update operation.
      */
     async update(item, options = { suppressAuth: true }) {
-        return await this.wixRequest.update("update", item, options);
+        return await this.#wixRequest.update("update", item, options);
     }
 
     /**
@@ -260,7 +260,7 @@ export class QueryBuilder {
      * @returns {Promise<object>} A promise resolving to the result of the remove operation.
      */
     async remove(itemId, options = { suppressAuth: true }) {
-        return await this.wixRequest.removeQuery("removeQuery", itemId, options);
+        return await this.#wixRequest.removeQuery("removeQuery", itemId, options);
     }
 
     /**
@@ -271,7 +271,7 @@ export class QueryBuilder {
      * @returns {Promise<object>} A promise resolving to the result of the truncate operation.
      */
     async truncate(options = { suppressAuth: true }) {
-        return await this.wixRequest.truncateQuery("truncateQuery", options);
+        return await this.#wixRequest.truncateQuery("truncateQuery", options);
     }
 
     /**
@@ -282,7 +282,7 @@ export class QueryBuilder {
      */
     async find(options = {}) {
         try {
-            const result = await this.wixRequest.findQuery("query", this.conditions, options);
+            const result = await this.#wixRequest.findQuery("query", this.conditions, options);
             if (result.status === "failed") this.#handleQueryError(result);
             return result;
         } catch (error) {

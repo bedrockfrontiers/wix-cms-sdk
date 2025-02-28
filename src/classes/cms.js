@@ -18,9 +18,9 @@ export class WixCMS {
      * @param {string} token - Authentication token for API access
      */
     constructor(username, site, token) {
-        this.username = username;
-        this.site = site;
-        this.token = token;
+        this.#username = username;
+        this.#site = site;
+        this.#token = token;
     }
 
     /**
@@ -34,9 +34,8 @@ export class WixCMS {
      * cms.query('products')
      *    .eq('price', 100)
      *    .limit(10)
-     *    .execute();
      */
     query(collectionName) {
-        return new QueryBuilder(collectionName, this.username, this.site, this.token);
+        return new QueryBuilder(collectionName, this.#username, this.#site, this.#token);
     }
 }
