@@ -10,6 +10,10 @@ import { QueryBuilder } from "./queryBuilder.js";
  * const query = cms.query('blogPosts');
  */
 export class WixCMS {
+	#username;
+    #site;
+    #token;
+
     /**
      * Creates a new Wix CMS client instance.
      * 

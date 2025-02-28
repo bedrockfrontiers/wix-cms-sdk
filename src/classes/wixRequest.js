@@ -18,8 +18,6 @@ export class WixRequest {
      */
     constructor(collectionName, username, site, token) {
         this.collectionName = collectionName;
-        this.username = username;
-        this.site = site;
         this.token = token;
         this.API_BASE = `https://${username}.wixsite.com/${site}/_functions`;
     }

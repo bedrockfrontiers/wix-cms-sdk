@@ -10,7 +10,12 @@ import { WixRequest } from "./wixRequest.js";
  * const result = await queryBuilder.eq('price', 100).limit(10).find();
  */
 export class QueryBuilder {
-    conditions = [];
+    #conditions = [];
+
+    #collectionName;
+    #username;
+    #site;
+    #token;
     
     /**
      * Creates a new QueryBuilder instance.
@@ -35,7 +40,7 @@ export class QueryBuilder {
      * @param {any} value - The value to match.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    eq(field, value) { return this.addCondition(field, "eq", value); }
+    eq(field, value) { return this.#addCondition(field, "eq", value); }
 
     /**
      * Adds a non-equality condition to the query.
@@ -44,7 +49,7 @@ export class QueryBuilder {
      * @param {any} value - The value to exclude.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    ne(field, value) { return this.addCondition(field, "ne", value); }
+    ne(field, value) { return this.#addCondition(field, "ne", value); }
 
     /**
      * Adds a greater-than condition to the query.
@@ -53,7 +58,7 @@ export class QueryBuilder {
      * @param {any} value - The value to compare against.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    gt(field, value) { return this.addCondition(field, "gt", value); }
+    gt(field, value) { return this.#addCondition(field, "gt", value); }
 
     /**
      * Adds a greater-than-or-equal condition to the query.
@@ -62,7 +67,7 @@ export class QueryBuilder {
      * @param {any} value - The value to compare against.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    gte(field, value) { return this.addCondition(field, "gte", value); }
+    gte(field, value) { return this.#addCondition(field, "gte", value); }
 
     /**
      * Adds a less-than condition to the query.
@@ -71,7 +76,7 @@ export class QueryBuilder {
      * @param {any} value - The value to compare against.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    lt(field, value) { return this.addCondition(field, "lt", value); }
+    lt(field, value) { return this.#addCondition(field, "lt", value); }
 
     /**
      * Adds a less-than-or-equal condition to the query.
@@ -80,7 +85,7 @@ export class QueryBuilder {
      * @param {any} value - The value to compare against.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    lte(field, value) { return this.addCondition(field, "lte", value); }
+    lte(field, value) { return this.#addCondition(field, "lte", value); }
 
     /**
      * Adds an inclusion condition to the query.
@@ -88,7 +93,7 @@ export class QueryBuilder {
      * @param {string} field - The field to include.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    include(field) { return this.addCondition(field, "include"); }
+    include(field) { return this.#addCondition(field, "include"); }
 
     /**
      * Adds a contains condition to the query.
@@ -97,7 +102,7 @@ export class QueryBuilder {
      * @param {any} value - The value to search for.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    contains(field, value) { return this.addCondition(field, "contains", value); }
+    contains(field, value) { return this.#addCondition(field, "contains", value); }
 
     /**
      * Adds a starts-with condition to the query.
@@ -106,7 +111,7 @@ export class QueryBuilder {
      * @param {any} value - The value to match at the start.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    startsWith(field, value) { return this.addCondition(field, "startsWith", value); }
+    startsWith(field, value) { return this.#addCondition(field, "startsWith", value); }
 
     /**
      * Adds an ends-with condition to the query.
@@ -115,7 +120,7 @@ export class QueryBuilder {
      * @param {any} value - The value to match at the end.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    endsWith(field, value) { return this.addCondition(field, "endsWith", value); }
+    endsWith(field, value) { return this.#addCondition(field, "endsWith", value); }
 
     /**
      * Adds a between condition to the query.
@@ -125,7 +130,7 @@ export class QueryBuilder {
      * @param {any} maxValue - The maximum value.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    between(field, minValue, maxValue) { return this.addCondition(field, "between", minValue, maxValue); }
+    between(field, minValue, maxValue) { return this.#addCondition(field, "between", minValue, maxValue); }
 
     /**
      * Specifies fields to include in the query results.
@@ -133,7 +138,7 @@ export class QueryBuilder {
      * @param {string} field - The field to include.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    fields(field) { return this.addCondition(field, "fields"); }
+    fields(field) { return this.#addCondition(field, "fields"); }
 
     /**
      * Limits the number of results returned by the query.
@@ -141,7 +146,7 @@ export class QueryBuilder {
      * @param {number} value - The maximum number of results to return.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    limit(value) { return this.addCondition(null, "limit", value); }
+    limit(value) { return this.#addCondition(null, "limit", value); }
 
     /**
      * Skips a specified number of results in the query.
@@ -149,7 +154,7 @@ export class QueryBuilder {
      * @param {number} value - The number of results to skip.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    skip(value) { return this.addCondition(null, "skip", value); }
+    skip(value) { return this.#addCondition(null, "skip", value); }
 
     /**
      * Adds a condition to check if the field has some of the specified values.
@@ -158,7 +163,7 @@ export class QueryBuilder {
      * @param {any} value - The values to check against.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    hasSome(field, value) { return this.addCondition(field, "hasSome", value); }
+    hasSome(field, value) { return this.#addCondition(field, "hasSome", value); }
 
     /**
      * Adds a condition to check if the field has all of the specified values.
@@ -167,7 +172,7 @@ export class QueryBuilder {
      * @param {any} value - The values to check against.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    hasAll(field, value) { return this.addCondition(field, "hasAll", value); }
+    hasAll(field, value) { return this.#addCondition(field, "hasAll", value); }
 
     /**
      * Adds a condition to check if the field is empty.
@@ -175,7 +180,7 @@ export class QueryBuilder {
      * @param {string} field - The field to check.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    isEmpty(field) { return this.addCondition(field, "isEmpty"); }
+    isEmpty(field) { return this.#addCondition(field, "isEmpty"); }
 
     /**
      * Adds a condition to check if the field is not empty.
@@ -183,7 +188,7 @@ export class QueryBuilder {
      * @param {string} field - The field to check.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    isNotEmpty(field) { return this.addCondition(field, "isNotEmpty"); }
+    isNotEmpty(field) { return this.#addCondition(field, "isNotEmpty"); }
 
     /**
      * Sorts the results in ascending order by the specified field.
@@ -191,7 +196,7 @@ export class QueryBuilder {
      * @param {string} field - The field to sort by.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    ascending(field) { return this.addCondition(field, "ascending"); }
+    ascending(field) { return this.#addCondition(field, "ascending"); }
 
     /**
      * Sorts the results in descending order by the specified field.
@@ -199,7 +204,7 @@ export class QueryBuilder {
      * @param {string} field - The field to sort by.
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
      */
-    descending(field) { return this.addCondition(field, "descending"); }
+    descending(field) { return this.#addCondition(field, "descending"); }
 
     /**
      * Adds a condition to the query.
@@ -209,9 +214,10 @@ export class QueryBuilder {
      * @param {any} value - The value to compare against.
      * @param {any} [extraValue] - An additional value for certain operators (e.g., "between").
      * @returns {QueryBuilder} The current QueryBuilder instance for chaining.
+     * @private
      */
-    addCondition(field, operator, value, extraValue) {
-        this.conditions.push({ field, operator, value, extraValue });
+    #addCondition(field, operator, value, extraValue) {
+        this.#conditions.push({ field, operator, value, extraValue });
         return this;
     }
 
@@ -282,7 +288,7 @@ export class QueryBuilder {
      */
     async find(options = {}) {
         try {
-            const result = await this.#wixRequest.findQuery("query", this.conditions, options);
+            const result = await this.#wixRequest.findQuery("query", this.#conditions, options);
             if (result.status === "failed") this.#handleQueryError(result);
             return result;
         } catch (error) {
