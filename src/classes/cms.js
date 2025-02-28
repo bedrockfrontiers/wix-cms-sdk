@@ -1,3 +1,5 @@
+import { QueryBuilder } from "./queryBuilder.js";
+
 /**
  * A client class for interacting with the Wix Content Management System (CMS).
  * Provides an interface to query data collections using a fluent query builder.
