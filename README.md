@@ -1,9 +1,8 @@
 # Wix CMS SDK
 
 [![npm](https://img.shields.io/npm/v/@bedrockfrontiers/wix-cms-sdk)](https://www.npmjs.com/package/@bedrockfrontiers/wix-cms-sdk)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/license/apache-2-0)
 [![Node.js](https://img.shields.io/badge/Node-%3E%3D%2018.0-brightgreen.svg)](https://nodejs.org/)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/bedrockfrontiers/wix-cms-sdk/ci.yml?branch=main)](https://github.com/bedrockfrontiers/wix-cms-sdk/actions)
 [![Downloads (monthly)](https://img.shields.io/npm/dm/@bedrockfrontiers/wix-cms-sdk)](https://www.npmjs.com/package/@bedrockfrontiers/wix-cms-sdk)
 [![Bundle Size (min+gz)](https://img.shields.io/bundlephobia/minzip/@bedrockfrontiers/wix-cms-sdk)](https://bundlephobia.com/package/@bedrockfrontiers/wix-cms-sdk)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/bedrockfrontiers/wix-cms-sdk/pulls)
