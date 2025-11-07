@@ -10,8 +10,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "build": "rollup -c"
+    "lint:fix": "eslint src --fix"
   },
   "repository": {
     "type": "git",
