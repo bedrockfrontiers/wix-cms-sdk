@@ -1,3 +1,3 @@
-export * from "./classes/cms.js";
-export * from "./classes/queryBuilder.js";
-export * from "./classes/wixRequest.js";
+export * from "./core/cms.js";
+export * from "./core/queryBuilder.js";
+export * from "./core/wixRequest.js";
