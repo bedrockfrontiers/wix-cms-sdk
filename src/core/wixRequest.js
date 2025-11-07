@@ -1,8 +1,19 @@
 import { DEFAULT_HEADERS, HTTP_METHOD } from "../config/constants.js";
+import { validateStrings } from "../utils/validation.js";
+import { 
+  handleResponse, 
+  isRetryableError, 
+  createDetailedError 
+} from "../utils/errorHandler.js";
+import { 
+  fetchWithTimeout, 
+  withRetry, 
+  debugLog 
+} from "../utils/requestHelpers.js";
 
 /**
  * A utility class for making HTTP requests to the Wix API.
- * Handles authentication, request formatting, and response parsing.
+ * Handles authentication, request formatting, response parsing, retries, and timeouts.
  * 
  * @class WixRequest
  * @throws {Error} When API requests fail or responses are invalid
@@ -26,7 +37,12 @@ export class WixRequest {
 	 * @throws {TypeError} When any parameter is invalid
 	 */
 	constructor(collectionName, username, site, token) {
-		this.#validateParameters(collectionName, username, site, token);
+		validateStrings([
+			{ value: collectionName, fieldName: 'Collection name' },
+			{ value: username, fieldName: 'Username' },
+			{ value: site, fieldName: 'Site' },
+			{ value: token, fieldName: 'Token' }
+		]);
 		
 		this.#collectionName = collectionName;
 		this.#token = token;
@@ -111,6 +127,7 @@ export class WixRequest {
 	}
 
 	/**
+	 * Executes a query with retry logic and error handling.
 	 * @private
 	 * @param {string} route
 	 * @param {Object} body
@@ -118,11 +135,24 @@ export class WixRequest {
 	 * @throws {Error}
 	 */
 	async #executeQuery(route, body) {
-		const response = await this.#makeRequest(route, HTTP_METHOD.POST, body);
-		return this.#handleResponse(response);
+		return withRetry(
+			async (attempt) => {
+				debugLog('WixRequest', `Attempt ${attempt}: ${HTTP_METHOD.POST} ${route}`);
+				
+				const response = await this.#makeRequest(route, HTTP_METHOD.POST, body);
+				return handleResponse(response);
+			},
+			{
+				isRetryable: isRetryableError,
+				onRetry: (error, attempt, delay) => {
+					debugLog('WixRequest', `Retrying after error: ${error.message} (waiting ${delay}ms)`);
+				}
+			}
+		);
 	}
 
 	/**
+	 * Makes an HTTP request with timeout support.
 	 * @private
 	 * @param {string} route
 	 * @param {string} method
@@ -144,57 +174,15 @@ export class WixRequest {
 			});
 		}
 
-		const response = await fetch(`${this.#apiBase}/${route}`, options);
+		const url = `${this.#apiBase}/${route}`;
+		debugLog('WixRequest', `Request URL: ${url}`);
+
+		const response = await fetchWithTimeout(url, options);
 		
 		if (!response.ok) {
-			throw new Error(
-				`Wix API request failed: ${response.status} ${response.statusText}`
-			);
+			throw await createDetailedError(response);
 		}
 
 		return response;
 	}
-
-	/**
-	 * @private
-	 * @param {Response} response
-	 * @returns {Promise<Object>}
-	 * @throws {Error}
-	 */
-	async #handleResponse(response) {
-		const data = await response.json();
-		
-		if (!data || typeof data.status !== 'string') {
-			throw new Error('Invalid response format: missing status field');
-		}
-
-		return data;
-	}
-
-	/**
-	 * @private
-	 * @param {string} collectionName
-	 * @param {string} username
-	 * @param {string} site
-	 * @param {string} token
-	 * @throws {TypeError}
-	 */
-	#validateParameters(collectionName, username, site, token) {
-		if (typeof collectionName !== 'string' || collectionName.trim().length === 0) {
-			throw new TypeError('Collection name must be a non-empty string');
-		}
-		
-		if (typeof username !== 'string' || username.trim().length === 0) {
-			throw new TypeError('Username must be a non-empty string');
-		}
-		
-		if (typeof site !== 'string' || site.trim().length === 0) {
-			throw new TypeError('Site must be a non-empty string');
-		}
-		
-		if (typeof token !== 'string' || token.trim().length === 0) {
-			throw new TypeError('Token must be a non-empty string');
-		}
-	}
 }
-
