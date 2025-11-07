@@ -1,11 +1,4 @@
-const DEFAULT_HEADERS = Object.freeze({
-	"content-type": "application/json"
-});
-
-const HTTP_METHOD = Object.freeze({
-	GET: "GET",
-	POST: "POST"
-});
+import { DEFAULT_HEADERS, HTTP_METHOD } from "../config/constants.js";
 
 /**
  * A utility class for making HTTP requests to the Wix API.
@@ -204,3 +197,4 @@ export class WixRequest {
 		}
 	}
 }
+
