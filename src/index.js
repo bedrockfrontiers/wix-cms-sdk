@@ -1,3 +1,4 @@
-export { WixCMS } from "./classes/cms.js";
-export { QueryBuilder } from "./classes/queryBuilder.js";
-export { WixRequest } from "./classes/wixRequest.js";
+export { WixCMS } from "./core/cms.js";
+export { QueryBuilder } from "./core/queryBuilder.js";
+
+export { WixRequest } from "./core/wixRequest.js";
