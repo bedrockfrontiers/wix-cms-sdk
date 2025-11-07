@@ -1,4 +1,4 @@
-import { DEFAULT_HEADERS, HTTP_METHOD } from "../config/constants.js";
+import { DEFAULT_HEADERS, HTTP_METHODS } from "../config/constants.js";
 import { validateStrings } from "../utils/validation.js";
 import { 
   handleResponse, 
@@ -137,7 +137,7 @@ export class WixRequest {
 	async #executeQuery(route, body) {
 		return withRetry(
 			async (attempt) => {
-				debugLog('WixRequest', `Attempt ${attempt}: ${HTTP_METHOD.POST} ${route}`);
+				debugLog('WixRequest', `Attempt ${attempt}: ${HTTP_METHODS.POST} ${route}`);
 				
 				const response = await this.#makeRequest(route, HTTP_METHOD.POST, body);
 				return handleResponse(response);
@@ -186,3 +186,4 @@ export class WixRequest {
 		return response;
 	}
 }
+
