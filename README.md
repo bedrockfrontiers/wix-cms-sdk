@@ -112,10 +112,10 @@ Each exported function (e.g. `post_query`, `post_insertQuery`, etc.) handles a d
 
 All responses are returned as JSON objects with the structure:
 
-```json
+```jsonc
 {
   "status": "success",
-  "result": { ... }
+  "result": { /* ... */ }
 }
 ```
 
