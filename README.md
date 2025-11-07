@@ -226,3 +226,15 @@ await cms.query("Posts").insert({
 - Keep your secret token private — never expose it in client-side code.
 - Regenerate tokens periodically.
 - Optionally, restrict requests to known IPs or origins in your `http-functions.js`.
+
+## Contributing
+
+Contributions are welcome and greatly appreciated.  
+If you’d like to report a bug, suggest an enhancement, or submit a pull request, please first review our [Contribution Guidelines](/CONTRIBUTING.md) and [Code of Conduct](/CODE_OF_CONDUCT.md).
+
+When submitting a pull request:
+- Make sure your code follows the established project style and linting rules.
+- Include clear commit messages and concise descriptions of your changes.
+- Update documentation or examples when relevant.
+
+By contributing to this repository, you agree to comply with the [Code of Conduct](/CODE_OF_CONDUCT.md).
