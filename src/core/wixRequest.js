@@ -139,7 +139,7 @@ export class WixRequest {
 			async (attempt) => {
 				debugLog('WixRequest', `Attempt ${attempt}: ${HTTP_METHODS.POST} ${route}`);
 				
-				const response = await this.#makeRequest(route, HTTP_METHOD.POST, body);
+				const response = await this.#makeRequest(route, HTTP_METHODS.POST, body);
 				return handleResponse(response);
 			},
 			{
