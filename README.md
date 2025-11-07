@@ -69,7 +69,7 @@ Replace "YOUR_SECRET_TOKEN_HERE" with a strong, unique secret token of your choi
 > This ensures only authorized requests from your application can access your Wix CMS.
 
 > [!WARNING]
-> #### Security Notice:
+> **Security Notice:**
 > - Never commit this token to version control (e.g., GitHub).
 > - Do not include it in client-side JavaScript or anywhere it could be exposed publicly.
 > - Store it securely (e.g., in environment variables or a server-side configuration file).
