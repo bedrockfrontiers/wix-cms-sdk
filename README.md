@@ -9,7 +9,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/bedrockfrontiers/wix-cms-sdk?style=social)](https://github.com/bedrockfrontiers/wix-cms-sdk/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/bedrockfrontiers/wix-cms-sdk?style=social)](https://github.com/bedrockfrontiers/wix-cms-sdk/network/members)
 
-A lightweight and modular SDK for interacting with the Wix Headless CMS API. This library simplifies content management operations such as retrieving, creating, updating, and deleting CMS items, making it easier to integrate Wix CMS into your projects.
+A **lightweight** and modular SDK for interacting with the **Wix Headless CMS API**. This library simplifies content management operations such as retrieving, creating, updating, and deleting CMS items, making it easier to integrate Wix CMS into your projects.
 
 ## Features
 
